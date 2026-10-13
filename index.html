@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="استمع إلى القرآن الكريم، واقرأه، وتابع أذكارك وتسبيحك وأحاديث نبوية."
+    />
+    <meta id="browser-theme-color" name="theme-color" content="#102a24" />
+    <title>وِرد — القرآن الكريم</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+    <script type="module" src="competition.js"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside id="sidebar" class="sidebar" aria-label="قائمة التنقل">
+        <a class="brand" href="#listen" data-view="listen" aria-label="وِرد، الصفحة الرئيسية">
+          <span class="brand-mark" aria-hidden="true">و</span>
+          <span>وِرد<span class="brand-dot">.</span></span>
+        </a>
+
+        <div class="sidebar-label">مكتبتك</div>
+        <nav class="side-nav">
+          <a class="nav-link active" href="#listen" data-view="listen" data-view-title="استمع الآن">
+            <span class="nav-icon" aria-hidden="true">◉</span>
+            استمع الآن
+          </a>
+          <a class="nav-link" href="#all-reciters" data-view="all-reciters" data-view-title="كل القرّاء">
+            <span class="nav-icon" aria-hidden="true">♬</span>
+            كل القراء
+          </a>
+          <a class="nav-link" href="#competition" data-view="competition" data-view-title="المسابقة الدينية">
+            <span class="nav-icon" aria-hidden="true">🏆</span>
+            المسابقة
+          </a>
+          <a class="nav-link" href="#surahs" data-view="surahs" data-view-title="سور القرآن">
+            <span class="nav-icon" aria-hidden="true">▤</span>
+            سور القرآن
+          </a>
+          <a class="nav-link" href="#tasbeeh" data-view="tasbeeh" data-view-title="التسبيح">
+            <span class="nav-icon" aria-hidden="true">◌</span>
+            التسبيح
+          </a>
+          <a class="nav-link" href="#adhkar" data-view="adhkar" data-view-title="الأذكار">
+            <span class="nav-icon" aria-hidden="true">❋</span>
+            الأذكار
+          </a>
+          <a class="nav-link" href="#quran-reader" data-view="quran-reader" data-view-title="المصحف">
+            <span class="nav-icon" aria-hidden="true">۞</span>
+            اقرأ القرآن
+          </a>
+          <a class="nav-link" href="#prophets" data-view="prophets" data-view-title="سير الأنبياء">
+            <span class="nav-icon" aria-hidden="true">⌂</span>
+            سير الأنبياء
+          </a>
+          <a class="nav-link" href="#hadith" data-view="hadith" data-view-title="الأحاديث">
+            <span class="nav-icon" aria-hidden="true">❞</span>
+            أحاديث
+          </a>
+        </nav>
+
+        <div class="reciters-heading">
+          <span class="sidebar-label">القرّاء</span>
+          <span id="reciter-count" class="count-badge">—</span>
+        </div>
+        <label class="search-box" for="reciter-search">
+          <span aria-hidden="true">⌕</span>
+          <input
+            id="reciter-search"
+            type="search"
+            placeholder="ابحث عن قارئ..."
+            autocomplete="off"
+          />
+        </label>
+        <div id="reciter-list" class="reciter-list" aria-live="polite">
+          <div class="sidebar-loading"><span class="spinner"></span> جاري تحميل القرّاء</div>
+        </div>
+
+        <div class="sidebar-footer">
+          <span class="live-dot"></span>
+          <span>رفيق وِردك اليومي</span>
+        </div>
+      </aside>
+
+      <main id="app-main" class="main-content">
+        <header class="topbar">
+          <div class="breadcrumb"><span>وِرد</span><span class="crumb-divider">/</span> <span id="current-view-title">استمع الآن</span></div>
+          <div class="topbar-actions">
+            <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-controls="sidebar" aria-expanded="true" aria-label="طيّ القائمة الجانبية">
+              <span class="sidebar-toggle-icon" aria-hidden="true">⇥</span>
+              <span class="sidebar-toggle-label">طيّ القائمة</span>
+            </button>
+            <a class="topbar-note" href="#surahs" data-view="surahs" data-view-title="سور القرآن">
+              <span aria-hidden="true">✦</span> خذ لك وِردًا
+            </a>
+            <button id="theme-toggle" class="theme-toggle" type="button" aria-label="تفعيل الوضع الداكن" aria-pressed="false">
+              <span class="theme-toggle-icon" aria-hidden="true">☾</span>
+              <span class="theme-toggle-label">الوضع الداكن</span>
+            </button>
+          </div>
+        </header>
+
+        <section id="listen" class="app-view active" aria-label="الاستماع للقرآن">
+        <section class="welcome">
+          <div class="welcome-copy">
+            <div class="eyebrow"><span class="eyebrow-line"></span> السكينة تبدأ بآية</div>
+            <h1>اجعل للقرآن<br /><span>مساحة في يومك.</span></h1>
+            <p>اختر قارئك وسورتك، واستمع حيثما كنت.</p>
+            <button id="sayyed-saeed-shortcut" class="featured-reciter" type="button">
+              <span class="featured-icon" aria-hidden="true">♫</span>
+              <span>استمع للشيخ السيد سعيد</span>
+              <span class="featured-arrow" aria-hidden="true">←</span>
+            </button>
+          </div>
+          <div class="welcome-ornament" aria-hidden="true">
+            <span class="ornament-star">✳</span>
+            <span class="ornament-arabic">وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا</span>
+            <span class="ornament-caption">المزّمّل · ٤</span>
+          </div>
+        </section>
+
+        <section class="player-card" aria-label="مشغل القرآن الكريم">
+          <div class="player-topline">
+            <span class="section-kicker"><span class="audio-wave">♫</span> الآن يُتلى</span>
+            <span id="player-status" class="player-status">اختر قارئًا للبدء</span>
+          </div>
+
+          <div class="track-info">
+            <div class="surah-art" aria-hidden="true">
+              <span class="art-inner">۞</span>
+            </div>
+            <div class="track-copy">
+              <div id="current-surah" class="track-surah">اختر سورة</div>
+              <div id="current-reciter" class="track-reciter">قارئ القرآن الكريم</div>
+            </div>
+            <span id="surah-type" class="surah-type">القرآن الكريم</span>
+          </div>
+
+          <audio id="audio-player" controls preload="none" aria-label="مشغل التلاوة"></audio>
+          <div class="player-bottom">
+            <label for="moshaf-select">الرواية</label>
+            <select id="moshaf-select" aria-label="اختر الرواية" disabled>
+              <option>اختر قارئًا أولًا</option>
+            </select>
+            <span class="player-hint">قائمة القرّاء والتلاوات الصوتية تحتاج إلى اتصال بالإنترنت</span>
+          </div>
+        </section>
+        </section>
+
+        <section id="all-reciters" class="app-view content-section" aria-labelledby="all-reciters-title" hidden>
+          <div class="section-heading">
+            <div>
+              <div class="section-kicker">اختر صوتك المفضّل</div>
+              <h2 id="all-reciters-title">جميع القرّاء <span id="all-reciter-count" class="surah-count"></span></h2>
+            </div>
+            <label class="surah-search" for="all-reciter-search">
+              <span aria-hidden="true">⌕</span>
+              <input
+                id="all-reciter-search"
+                type="search"
+                placeholder="ابحث عن قارئ..."
+                autocomplete="off"
+              />
+            </label>
+          </div>
+          <p class="offline-explanation">تُحمّل قائمة القراء والروايات من الإنترنت. اختر قارئًا لعرض تلاواته في المشغل.</p>
+          <div id="all-reciter-list" class="all-reciter-grid" aria-live="polite">
+            <div class="loading-card"><span class="spinner"></span> جاري تحميل القراء</div>
+          </div>
+          <p id="all-reciter-empty" class="empty-state" hidden>لا يوجد قارئ بهذا الاسم.</p>
+        </section>
+
+        <section id="competition" class="app-view content-section" aria-labelledby="competition-title" hidden>
+          <div class="section-heading">
+            <div>
+              <div class="section-kicker">معرفة وتنافس</div>
+              <h2 id="competition-title">المسابقة الدينية</h2>
+            </div>
+          </div>
+          <div class="practice-card competition-intro">
+            <h3>مسابقة ضيفين عبر الإنترنت</h3>
+            <p>أنشئ غرفة وأرسل رابطها إلى ضيف آخر. أجيبا عن الأسئلة الدينية من جهازين مختلفين وتنافسا على أعلى نتيجة.</p>
+            <p class="subtle-note">لا تحتاجان إلى حساب؛ اكتبا اسمين فقط.</p>
+          </div>
+
+          <section class="practice-card competition-lobby" aria-label="بدء المسابقة">
+            <label class="control-label" for="competition-name">اسمك</label>
+            <input id="competition-name" class="competition-name" type="text" maxlength="24" autocomplete="nickname" placeholder="اكتب اسمك" />
+            <div class="competition-create">
+              <h3>إنشاء غرفة</h3>
+              <button id="competition-create-room" class="primary-button" type="button">إنشاء رابط دعوة</button>
+            </div>
+            <div class="competition-join">
+              <h3>الانضمام إلى غرفة</h3>
+              <label class="control-label" for="competition-room-code">رمز الغرفة</label>
+              <input id="competition-room-code" class="competition-name" type="text" maxlength="6" autocomplete="off" placeholder="مثال: A7K2Q9" />
+              <button id="competition-join-room" class="secondary-button" type="button">انضمام</button>
+            </div>
+          </section>
+
+          <p id="competition-status" class="subtle-note competition-status" role="status" aria-live="polite"></p>
+
+          <section id="competition-room" class="practice-card competition-room" hidden aria-label="غرفة المسابقة">
+            <div class="competition-room-header">
+              <div>
+                <div class="section-kicker">غرفة المسابقة</div>
+                <h3 id="competition-room-title">رمز الدعوة</h3>
+              </div>
+              <strong id="competition-room-code-display" class="competition-room-code"></strong>
+            </div>
+            <div class="competition-share">
+              <button id="competition-copy-invite" class="secondary-button" type="button">نسخ رابط الدعوة</button>
+              <a id="competition-whatsapp" class="primary-button competition-whatsapp" target="_blank" rel="noopener noreferrer">دعوة عبر واتساب</a>
+            </div>
+            <h4>المتسابقون <span id="competition-player-count" class="surah-count"></span></h4>
+            <ol id="competition-players" class="competition-players"></ol>
+            <div class="competition-room-actions">
+              <button id="competition-start" class="primary-button" type="button" hidden>ابدأ المسابقة</button>
+              <button id="competition-leave" class="secondary-button" type="button">مغادرة الغرفة</button>
+            </div>
+          </section>
+
+        </section>
+
+        <section id="competition-game-page" class="app-view content-section competition-game-page" aria-labelledby="competition-game-page-title" hidden>
+          <div class="section-heading">
+            <div>
+              <div class="section-kicker">تحدَّ معلوماتك</div>
+              <h2 id="competition-game-page-title">اختبار المسابقة</h2>
+            </div>
+            <button id="competition-return-room" class="secondary-button" type="button">العودة إلى الغرفة</button>
+          </div>
+          <p id="competition-game-status" class="subtle-note competition-status" role="status" aria-live="polite"></p>
+          <section id="competition-game" class="practice-card competition-game" hidden aria-label="مجريات المسابقة">
+            <div class="competition-game-top">
+              <div class="competition-level-heading">
+                <span class="section-kicker">المستوى الحالي</span>
+                <strong id="competition-level" class="competition-level-badge"></strong>
+              </div>
+              <span id="competition-level-count" class="competition-level-count"></span>
+            </div>
+            <div class="competition-level-track" aria-label="مراحل المسابقة">
+              <span class="competition-level-step" data-level-step="0">تمهيدي · ١–٥</span>
+              <span class="competition-level-step" data-level-step="1">متوسط · ٦–١٠</span>
+              <span class="competition-level-step" data-level-step="2">متقدم · ١١–١٥</span>
+            </div>
+            <div id="competition-scoreboard" class="competition-scoreboard" aria-live="polite"></div>
+            <span id="competition-question-category" class="competition-question-category"></span>
+            <h3 id="competition-question" class="competition-question"></h3>
+            <div id="competition-answers" class="competition-answers"></div>
+            <p id="competition-answer-status" class="subtle-note" aria-live="polite"></p>
+            <div id="competition-reveal" class="competition-reveal" hidden></div>
+            <div class="competition-room-actions">
+              <button id="competition-next" class="primary-button" type="button" hidden>السؤال التالي</button>
+            </div>
+          </section>
+
+          <section id="competition-results" class="practice-card competition-results" hidden aria-label="ترتيب المسابقة">
+            <h3>النتيجة النهائية</h3>
+            <ol id="competition-leaderboard" class="competition-leaderboard"></ol>
+            <button id="competition-leave-results" class="secondary-button" type="button">العودة للمسابقة</button>
+          </section>
+        </section>
+
+        <section id="surahs" class="app-view surahs-section" hidden>
+          <div class="section-heading">
+            <div>
+              <div class="section-kicker">بين يديك</div>
+              <h2>سور القرآن الكريم <span id="surah-count" class="surah-count"></span></h2>
+            </div>
+            <label class="surah-search" for="surah-search">
+              <span aria-hidden="true">⌕</span>
+              <input
+                id="surah-search"
+                type="search"
+                placeholder="ابحث عن سورة..."
+                autocomplete="off"
+              />
+            </label>
+          </div>
+          <section class="practice-card offline-audio-card" aria-labelledby="offline-audio-title">
+            <div>
+              <div class="section-kicker">استمع أينما كنت</div>
+              <h3 id="offline-audio-title">تنزيل التلاوات للاستماع دون إنترنت</h3>
+              <p class="offline-explanation">اختر القارئ والرواية والسورة لتنزيلها على هذا الجهاز. يمكنك تشغيل التلاوات المحفوظة أو حذفها في أي وقت.</p>
+            </div>
+            <div class="reader-controls offline-audio-controls">
+              <label class="control-label" for="audio-reciter-select">القارئ</label>
+              <select id="audio-reciter-select" aria-label="اختر القارئ للتنزيل">
+                <option value="">جارٍ تحميل القرّاء...</option>
+              </select>
+              <label class="control-label" for="audio-moshaf-select">الرواية</label>
+              <select id="audio-moshaf-select" aria-label="اختر الرواية للتنزيل" disabled>
+                <option value="">اختر قارئًا أولًا</option>
+              </select>
+              <label class="control-label" for="audio-surah-select">السورة</label>
+              <select id="audio-surah-select" aria-label="اختر السورة للتنزيل" disabled>
+                <option value="">اختر رواية أولًا</option>
+              </select>
+              <button id="download-audio-button" class="primary-button" type="button" disabled>تنزيل السورة</button>
+            </div>
+            <p id="audio-download-status" class="subtle-note" role="status" aria-live="polite">اختر قارئًا وسورة لبدء التنزيل.</p>
+            <div class="offline-audio-library">
+              <h4>التلاوات المحفوظة <span id="offline-audio-count" class="surah-count"></span></h4>
+              <div id="offline-audio-list" class="offline-audio-list" aria-live="polite">
+                <p class="subtle-note">جارٍ فحص التلاوات المحفوظة على هذا الجهاز...</p>
+              </div>
+            </div>
+          </section>
+          <div id="surah-list" class="surah-grid" aria-live="polite">
+            <div class="loading-card"><span class="spinner"></span> جاري تحميل سور القرآن الكريم</div>
+          </div>
+          <p id="surah-empty" class="empty-state" hidden>لم نعثر على سورة بهذا الاسم.</p>
+        </section>
+
+        <section id="tasbeeh" class="app-view content-section" aria-labelledby="tasbeeh-title" hidden>
+          <div class="section-heading">
+            <div>
+              <div class="section-kicker">وِردك اليومي</div>
+              <h2 id="tasbeeh-title">المسبحة الإلكترونية</h2>
+            </div>
+          </div>
+          <div class="practice-card tasbeeh-card">
+            <label class="control-label" for="tasbeeh-phrase">اختر الذكر</label>
+            <select id="tasbeeh-phrase">
+              <option value="سبحان الله">سبحان الله</option>
+              <option value="الحمد لله">الحمد لله</option>
+              <option value="الله أكبر">الله أكبر</option>
+              <option value="لا إله إلا الله">لا إله إلا الله</option>
+              <option value="أستغفر الله">أستغفر الله</option>
+              <option value="سبحان الله وبحمده">سبحان الله وبحمده</option>
+            </select>
+            <button id="tasbeeh-count-button" class="tasbeeh-count-button" type="button" aria-label="زيادة عدد التسبيح">
+              <span id="tasbeeh-count" aria-live="polite">0</span>
+              <span>اضغط للتسبيح</span>
+            </button>
+            <button id="tasbeeh-reset" class="secondary-button" type="button">تصفير العداد</button>
+            <p id="tasbeeh-status" class="subtle-note" aria-live="polite">يُحفظ عدّادك على هذا الجهاز.</p>
+          </div>
+        </section>
+
+        <section id="adhkar" class="app-view content-section" aria-labelledby="adhkar-title" hidden>
+          <div class="section-heading">
+            <div>
+              <div class="section-kicker">طمأنينة للقلب</div>
+              <h2 id="adhkar-title">أذكار مختارة</h2>
+            </div>
+          </div>
+          <div id="adhkar-list" class="adhkar-grid"></div>
+        </section>
+
+        <section id="quran-reader" class="app-view content-section" aria-labelledby="quran-reader-title" hidden>
+          <div class="section-heading">
+            <div>
+              <div class="section-kicker">تلاوة وتدبّر</div>
+              <h2 id="quran-reader-title">قراءة القرآن الكريم</h2>
+            </div>
+          </div>
+          <div class="practice-card quran-reader-card">
+            <p class="offline-explanation">
+              حمّل نص القرآن والتفسير مرة واحدة أثناء الاتصال، وسيُحفظان على هذا الجهاز للقراءة دون إنترنت.
+              التلاوات الصوتية تحتاج إلى اتصال.
+            </p>
+            <div class="offline-actions">
+              <button id="download-quran-button" class="primary-button" type="button">
+                تحميل القرآن والتفسير للاستخدام دون إنترنت
+              </button>
+              <span id="offline-status" class="subtle-note" aria-live="polite">لم يتم حفظ المحتوى بعد.</span>
+            </div>
+            <div class="reader-controls">
+              <label class="control-label" for="reader-surah-select">اختر السورة</label>
+              <select id="reader-surah-select" disabled>
+                <option>حمّل القرآن والتفسير أولًا</option>
+              </select>
+              <label class="control-label" for="mushaf-page-select">الصفحة</label>
+              <select id="mushaf-page-select" disabled aria-label="اختر صفحة المصحف">
+                <option>—</option>
+              </select>
+              <button id="mushaf-previous" class="secondary-button" type="button" disabled aria-label="الصفحة السابقة">السابق</button>
+              <button id="mushaf-next" class="secondary-button" type="button" disabled aria-label="الصفحة التالية">التالي</button>
+              <label class="tafsir-toggle" for="tafsir-toggle">
+                <input id="tafsir-toggle" type="checkbox" />
+                إظهار التفسير
+              </label>
+            </div>
+            <p id="reader-status" class="subtle-note" aria-live="polite">حمّل القرآن والتفسير ثم تصفّح صفحات المصحف.</p>
+            <article id="mushaf-page" class="mushaf-page" aria-label="صفحة المصحف">
+              <div id="quran-verses" class="quran-verses" aria-live="polite"></div>
+            </article>
+            <div id="page-tafsir" class="page-tafsir" hidden></div>
+          </div>
+        </section>
+
+        <section id="prophets" class="app-view content-section" aria-labelledby="prophets-title" hidden>
+          <div class="section-heading">
+            <div>
+              <div class="section-kicker">قصص من القرآن الكريم</div>
+              <h2 id="prophets-title">سِيَر الأنبياء</h2>
+            </div>
+          </div>
+          <p class="offline-explanation">ملخصات موجزة متاحة دون إنترنت، مع الإشارة إلى مواضع القصة في القرآن الكريم.</p>
+          <div id="prophet-stories" class="prophet-grid"></div>
+        </section>
+
+        <section id="hadith" class="app-view content-section" aria-labelledby="hadith-title" hidden>
+          <div class="section-heading">
+            <div>
+              <div class="section-kicker">من الهدي النبوي</div>
+              <h2 id="hadith-title">حديث اليوم</h2>
+            </div>
+          </div>
+          <article class="practice-card hadith-card">
+            <span class="hadith-mark" aria-hidden="true">❞</span>
+            <blockquote id="hadith-text"></blockquote>
+            <p id="hadith-source" class="hadith-source"></p>
+            <button id="next-hadith" class="secondary-button" type="button">حديث آخر</button>
+          </article>
+        </section>
+
+        <footer class="page-footer">
+          <span>اللهم اجعل القرآن ربيع قلوبنا</span>
+          <span>التلاوات مقدّمة عبر MP3Quran</span>
+        </footer>
+      </main>
+    </div>
+  </body>
+</html>
